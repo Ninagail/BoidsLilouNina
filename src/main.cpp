@@ -7,6 +7,7 @@ int main()
 {
     // Run the tests
     // git test
+    //test nina pour lilou
     if (doctest::Context{}.run() != 0)
         return EXIT_FAILURE;
 
