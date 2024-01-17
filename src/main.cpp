@@ -6,6 +6,7 @@
 int main()
 {
     // Run the tests
+    // git test
     if (doctest::Context{}.run() != 0)
         return EXIT_FAILURE;
 
