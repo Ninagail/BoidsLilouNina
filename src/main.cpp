@@ -6,8 +6,6 @@
 int main()
 {
     // Run the tests
-    // git test
-    //test nina pour lilou
     if (doctest::Context{}.run() != 0)
         return EXIT_FAILURE;
 
@@ -17,10 +15,14 @@ int main()
 
     // Declare your infinite update loop.
     ctx.update = [&]() {
-        ctx.background(p6::NamedColor::Blue);
+        ctx.background(p6::NamedColor::BabyBlue);
         ctx.circle(
             p6::Center{ctx.mouse()},
-            p6::Radius{0.2f}
+            p6::Radius{0.1f}
+        );
+        ctx.square(
+            p6::Center{0.0f, 0.0f},
+            p6::Radius{1.0f}
         );
     };
 
