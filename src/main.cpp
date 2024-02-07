@@ -25,28 +25,30 @@ int main()
 
     // Declare your infinite update loop.
     ctx.update = [&]() {
-        for (auto& boid : boids)
-        {
-            boid.update_pos();
-        }
-        ctx.background(p6::NamedColor::BabyBlue);
-        for (auto& boid : boids)
-        {
-            ctx.circle(
-                p6::Center{boid.get_x_pos(), boid.get_y_pos()},
-                p6::Radius{0.05f}
-            );
-            p6 ::Color stroke{0.f, 0.f, 0.f};
-        }
-        // ctx.circle(
-        //     p6::Center{boids.get_x_pos(), boid.get_y_pos()},
-        //     p6::Radius{0.05f}
-        // );
-
+        // setup background
+        ctx.background({0.3f, 0.9f, 0.6f, 0.9f});
+        ctx.fill = {0.3f, 0.9f, 0.6f, 0.9f};
         ctx.square(
             p6::Center{0.0f, 0.0f},
             p6::Radius{1.0f}
         );
+
+        // setup boids
+        ctx.fill   = {0.3f, 0.5f, 0.9f, 1.0f};
+        ctx.stroke = {0.3f, 0.5f, 0.9f, 1.0f};
+
+        for (auto& boid : boids)
+        {
+            boid.update_pos();
+        }
+
+        for (auto& boid : boids)
+        {
+            ctx.circle(
+                p6::Center{boid.get_x_pos(), boid.get_y_pos()},
+                p6::Radius{0.025f}
+            );
+        }
     };
 
     // Should be done last. It starts the infinite loop.
