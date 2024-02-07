@@ -1,4 +1,5 @@
 // #include "p6/p6.h"
+#include <vector>
 
 class Boids {
 private:
@@ -19,9 +20,9 @@ public:
     ~Boids() = default;
 
     // methodes
-    void set_pos();
-    void update_pos();
-
+    void                set_pos();
+    void                update_pos();
+    std ::vector<float> cohesion(std ::vector<Boids> boids);
     // getters
     float get_x_pos() const;
     float get_y_pos() const;
