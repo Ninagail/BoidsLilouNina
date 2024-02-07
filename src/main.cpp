@@ -1,6 +1,7 @@
 #include <cstdlib>
 #define DOCTEST_CONFIG_IMPLEMENT
 #include <random>
+#include <vector>
 #include "boids.hpp"
 #include "doctest/doctest.h"
 #include "p6/p6.h"
@@ -15,17 +16,32 @@ int main()
     auto ctx = p6::Context{{.title = "Simple-p6-Setup"}};
     ctx.maximize_window();
 
-    Boids boid;
-    boid.set_pos();
+    // Boids             boid;
+    std::vector<Boids> boids(50);
+    for (auto& boid : boids)
+    {
+        boid.set_pos();
+    }
 
     // Declare your infinite update loop.
     ctx.update = [&]() {
-        boid.update_pos();
+        for (auto& boid : boids)
+        {
+            boid.update_pos();
+        }
         ctx.background(p6::NamedColor::BabyBlue);
-        ctx.circle(
-            p6::Center{boid.get_x_pos(), boid.get_y_pos()},
-            p6::Radius{0.05f}
-        );
+        for (auto& boid : boids)
+        {
+            ctx.circle(
+                p6::Center{boid.get_x_pos(), boid.get_y_pos()},
+                p6::Radius{0.05f}
+            );
+            p6 ::Color stroke{0.f, 0.f, 0.f};
+        }
+        // ctx.circle(
+        //     p6::Center{boids.get_x_pos(), boid.get_y_pos()},
+        //     p6::Radius{0.05f}
+        // );
 
         ctx.square(
             p6::Center{0.0f, 0.0f},

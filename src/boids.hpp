@@ -8,6 +8,8 @@ private:
     float x_speed;
     float y_speed;
 
+    // methodes
+
 public:
     // constructeur
     Boids()
