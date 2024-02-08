@@ -4,6 +4,7 @@
 #include <vector>
 #include "boids.hpp"
 #include "doctest/doctest.h"
+#include "glm/fwd.hpp"
 #include "p6/p6.h"
 
 int main()
@@ -20,7 +21,8 @@ int main()
     std::vector<Boids> boids(50);
     for (auto& boid : boids)
     {
-        boid.set_pos();
+        boid.set_speed();
+        boid.set_position();
     }
 
     // Declare your infinite update loop.
@@ -40,12 +42,8 @@ int main()
         for (auto& boid : boids)
         {
             boid.update_pos();
-        }
-
-        for (auto& boid : boids)
-        {
             ctx.circle(
-                p6::Center{boid.get_x_pos(), boid.get_y_pos()},
+                p6::Center{boid.get_position().x, boid.get_position().y},
                 p6::Radius{0.025f}
             );
         }

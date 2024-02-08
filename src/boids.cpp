@@ -1,57 +1,54 @@
 #include "boids.hpp"
+#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
+#include <iterator>
+#include <vector>
 #include "doctest/doctest.h"
+#include "glm/common.hpp"
+#include "glm/fwd.hpp"
+#include "glm/geometric.hpp"
 #include "p6/p6.h"
 
-void Boids ::set_pos()
-{
-    x_pos   = p6::random::number(-1.0f, 1.0f);
-    y_pos   = p6::random::number(-1.0f, 1.0f);
-    x_speed = p6::random::number(-0.01f, 0.01f);
-    y_speed = p6::random::number(-0.01f, 0.01f);
-}
+// METHODS
 
 void Boids ::update_pos()
 {
-    x_pos += x_speed;
-    y_pos += y_speed;
-    if (x_pos <= -0.95f)
+    m_position.x += m_speed.x;
+    m_position.y += m_speed.y;
+    if (m_position.x <= -0.975f)
     {
-        x_pos += 2;
+        m_position.x += 1.95;
     }
-    if (x_pos >= 0.95f)
+    if (m_position.x >= 0.975f)
     {
-        x_pos -= 2;
+        m_position.x -= 1.95;
     }
-    if (y_pos <= -0.95f)
+    if (m_position.y <= -0.975f)
     {
-        y_pos += 2;
+        m_position.y += 1.95;
     }
-    if (y_pos >= 0.95f)
+    if (m_position.y >= 0.975f)
     {
-        y_pos -= 2;
+        m_position.y -= 1.95;
     }
 }
 
-std ::vector<float> Boids ::cohesion(std ::vector<Boids> boids)
-{
-    std ::vector<float> cohesion = {0.0f, 0.0f};
-    for (auto& boid : boids)
-    {
-        cohesion[0] += boid.get_x_pos();
-        cohesion[1] += boid.get_y_pos();
-    }
-    cohesion[0] /= boids.size();
-    cohesion[1] /= boids.size();
-    return cohesion;
-}
+// std ::vector<float> Boids ::cohesion(std ::vector<Boids> boids)
+// {
+// }
 
 // GETTER
-float Boids ::get_x_pos() const
+
+// SETTER
+void Boids::set_position()
 {
-    return x_pos;
+    m_position.x = p6::random::number(-0.975f, 0.975f);
+    m_position.y = p6::random::number(-0.975f, 0.975f);
 }
 
-float Boids ::get_y_pos() const
+void Boids::set_speed()
 {
-    return y_pos;
+    m_speed.x = p6::random::number(-0.01f, 0.01f);
+    m_speed.y = p6::random::number(-0.01f, 0.01f);
 }
