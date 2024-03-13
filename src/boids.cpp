@@ -34,10 +34,24 @@ void Boids ::update_pos()
     }
 }
 
-void Boids::update_direction(const std::vector<Boids>& boids)
+/*void Boids::update_direction(const std::vector<Boids>& boids)
 {
     m_direction += glm::vec2(alignment_magnitude) * this->alignment(boids) + glm::vec2(cohesion_magnitude) * this->cohesion(boids) + glm::vec2(separation_magnitude) * this->separation(boids);
 
+    m_direction = glm::normalize(m_direction);
+}*/
+
+void Boids::update_direction(const std::vector<Boids>& boids)
+{
+    // Calculate alignment, cohesion, and separation vectors
+    glm::vec2 alignment  = this->alignment(boids);
+    glm::vec2 cohesion   = this->cohesion(boids);
+    glm::vec2 separation = this->separation(boids); // This is where the separation vector is calculated
+
+    // Update the direction by adding weighted vectors
+    m_direction += alignment * alignment_magnitude + cohesion * cohesion_magnitude + separation * separation_magnitude;
+
+    // Normalize the direction vector
     m_direction = glm::normalize(m_direction);
 }
 
@@ -130,10 +144,10 @@ glm::vec2 Boids::separation(const std::vector<Boids>& boids)
     // find the neighbors
     std::vector<Boids> neighbors = get_neighbors(boids, distance_max);
 
-    // initialise our separation vector
+    // initialize our separation vector
     glm::vec2 sep(0.f, 0.f);
 
-    // verify if the boid have neighbors
+    // verify if the boid has neighbors
     if (neighbors.empty())
     {
         return sep;
@@ -144,9 +158,11 @@ glm::vec2 Boids::separation(const std::vector<Boids>& boids)
         glm::vec2 towardsMe;
         towardsMe = this->get_position() - other.get_position();
 
-        if (length(towardsMe) > 0)
+        float dist = glm::length(towardsMe);
+        if (dist > 0)
         {
-            sep += glm::normalize(towardsMe) / length(towardsMe);
+            // Calculate the separation vector with magnitude inversely proportional to the distance
+            sep += glm::normalize(towardsMe) / dist;
         }
     }
     return glm::normalize(sep);

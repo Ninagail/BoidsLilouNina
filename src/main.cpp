@@ -8,9 +8,9 @@
 #include "glm/fwd.hpp"
 #include "p6/p6.h"
 
-float Boids::distance_max         = 0.05f;
-float Boids::alignment_magnitude  = 0.5f;
-float Boids::cohesion_magnitude   = 0.5f;
+float Boids::distance_max         = 0.18f; // Modifie la distance de séparartion entre les boids
+float Boids::alignment_magnitude  = 0.1f;
+float Boids::cohesion_magnitude   = 0.1f;
 float Boids::separation_magnitude = 0.5f;
 
 int main()
