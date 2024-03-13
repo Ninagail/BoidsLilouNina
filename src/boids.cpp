@@ -88,28 +88,41 @@ glm::vec2 Boids::cohesion(const std::vector<Boids>& boids)
 
 glm::vec2 Boids::alignment(const std::vector<Boids>& boids)
 {
-    // find the neighbors
+    // Find the neighbors
     std::vector<Boids> neighbors = get_neighbors(boids, distance_max);
 
-    // initialise our alignment vector
-    glm::vec2 ali(0.f, 0.f);
+    // Initialize variables
+    float xvel_avg          = 0.f;
+    float yvel_avg          = 0.f;
+    int   neighboring_boids = 0;
 
-    // verify if the boid have neighbors
-    if (neighbors.empty())
+    // Loop through all neighbors
+    for (auto& other : neighbors)
     {
-        return ali;
+        if (&other != this) // Exclude the current boid from alignment calculation
+        {
+            // Accumulate velocities and count neighboring boids
+            xvel_avg += other.get_speed().x;
+            yvel_avg += other.get_speed().y;
+            neighboring_boids++;
+        }
     }
-    // apply cohesion to all neighbors
-    for (auto other : neighbors)
+
+    // Update velocity based on neighboring boids
+    if (neighboring_boids > 0)
     {
-        ali += other.get_direction();
+        // Average velocities
+        xvel_avg /= neighboring_boids;
+        yvel_avg /= neighboring_boids;
+
+        // Update velocity according to matching factor
+        float matchingfactor = 0.1f; // You can adjust this value as needed
+        m_speed.x += (xvel_avg - m_speed.x) * matchingfactor;
+        m_speed.y += (yvel_avg - m_speed.y) * matchingfactor;
     }
 
-    // // divise by the number of neighbors
-    // ali.x = ali.x / (float)neighbors.size();
-    // ali.y = ali.y / (float)neighbors.size();
-
-    return glm::normalize(ali);
+    // Return current velocity without normalizing
+    return glm::vec2(m_speed.x, m_speed.y);
 }
 
 glm::vec2 Boids::separation(const std::vector<Boids>& boids)

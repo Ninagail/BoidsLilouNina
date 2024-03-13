@@ -1,5 +1,6 @@
 #include <cstdlib>
 #define DOCTEST_CONFIG_IMPLEMENT
+#include <glm/vec2.hpp>
 #include <random>
 #include <vector>
 #include "boids.hpp"
@@ -7,7 +8,7 @@
 #include "glm/fwd.hpp"
 #include "p6/p6.h"
 
-float Boids::distance_max         = 0.5f;
+float Boids::distance_max         = 0.05f;
 float Boids::alignment_magnitude  = 0.5f;
 float Boids::cohesion_magnitude   = 0.5f;
 float Boids::separation_magnitude = 0.5f;
@@ -47,6 +48,7 @@ int main()
         for (auto& boid : boids)
         {
             boid.update_pos();
+            boid.alignment(boids); // Call the alignment method
             boid.update_direction(boids);
             ctx.circle(
                 p6::Center{boid.get_position().x, boid.get_position().y},
