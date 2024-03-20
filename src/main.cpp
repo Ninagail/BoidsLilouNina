@@ -61,7 +61,7 @@ int main()
         for (auto& boid : boids)
         {
             boid.update_pos();
-            boid.alignment(boids); 
+            boid.alignment(boids);
             boid.update_direction(boids);
             ctx.circle(
                 p6::Center{boid.get_position().x, boid.get_position().y},
