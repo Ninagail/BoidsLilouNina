@@ -12,32 +12,38 @@ private:
     glm::vec2  m_speed;
     glm ::vec2 m_direction;
 
-    // methodes
-
 public:
     // attributs
-    static float distance_max;
+    // static float distance_separation;
+    // static float distance_cohesion;
+    // static float distance_aligment;
     static float alignment_magnitude;
     static float cohesion_magnitude;
     static float separation_magnitude;
 
     // constructeur
     Boids()
-        : m_position(0), m_speed(0), m_direction(p6::random::direction()){}; // Fix: Initialize position and speed separately
+        : m_position(0), m_speed(0.01), m_direction(p6::random::direction()){}; // Fix: Initialize position and speed separately
+    Boids(const glm::vec2& position, const glm::vec2& speed)                    // Fix: Swap the positions of 'position' and 'speed'
+        : m_position(position), m_speed(speed){};                               // Fix: Initialize position and speed separately
 
     // destructeur
     ~Boids() = default;
 
+    // copy constructor
+    Boids(const Boids& other) = default;
+
     // methodes
 
     void update_pos();
-    void update_direction(const std::vector<Boids>& boids);
+    void update_direction(std::vector<Boids>& boids, float distance_aligment, float distance_cohesion, float distance_separation);
 
     std::vector<Boids> get_neighbors(const std::vector<Boids>& boids, const float& distance_max);
 
-    glm::vec2 cohesion(const std::vector<Boids>& boids);
-    glm::vec2 alignment(const std::vector<Boids>& boids);
-    glm::vec2 separation(const std::vector<Boids>& boids);
+    // lois boids
+    void cohesion(const std::vector<Boids>& boids, float distance_cohesion);
+    void alignment(const std::vector<Boids>& boids, float distance_alignment);
+    void separation(const std::vector<Boids>& boids, float distance_separation);
 
     // getters
     glm::vec2 get_position() const { return m_position; };
@@ -46,6 +52,6 @@ public:
 
     // setters
 
-    void set_position();
+    void set_position(const std::vector<Boids>& existingBoids);
     void set_speed();
 };

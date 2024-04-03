@@ -9,7 +9,9 @@
 #include "imgui.h"
 #include "p6/p6.h"
 
-float Boids::distance_max         = 0.5f; // Modifie la distance de séparartion entre les boids
+float distance_aligment           = 0.1f;
+float distance_separation         = 0.05f;
+float distance_cohesion           = 0.2f;
 float Boids::alignment_magnitude  = 0.5f;
 float Boids::cohesion_magnitude   = 0.5f;
 float Boids::separation_magnitude = 0.5f;
@@ -20,7 +22,10 @@ void renderImGui()
     ImGui::SliderFloat("Cohesion", &Boids::cohesion_magnitude, 0.f, 1.f);
     ImGui::SliderFloat("Aligment", &Boids::alignment_magnitude, 0.f, 1.f);
     ImGui::SliderFloat("Separation", &Boids::separation_magnitude, 0.f, 1.f);
-    ImGui::SliderFloat("Distance with neighbors", &Boids::distance_max, 0.f, 1.f);
+    ImGui::SliderFloat("Distance to unite", &distance_cohesion, 0.f, 1.f);
+    ImGui::SliderFloat("Distance to escape", &distance_separation, 0.f, 1.f);
+    ImGui::SliderFloat("Distance to align", &distance_aligment, 0.f, 1.f);
+
     ImGui::End();
 }
 
@@ -39,7 +44,7 @@ int main()
     for (auto& boid : boids)
     {
         boid.set_speed();
-        boid.set_position();
+        boid.set_position(boids);
     }
 
     // Declare your infinite update loop.
@@ -60,13 +65,12 @@ int main()
 
         for (auto& boid : boids)
         {
-            boid.update_pos();
-            boid.alignment(boids); 
-            boid.update_direction(boids);
             ctx.circle(
                 p6::Center{boid.get_position().x, boid.get_position().y},
                 p6::Radius{0.025f}
             );
+            boid.update_pos();
+            boid.update_direction(boids, distance_aligment, distance_cohesion, distance_separation);
         }
     };
 
