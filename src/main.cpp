@@ -42,7 +42,7 @@ int main()
     for (auto& boid : boids)
     {
         boid.set_speed();
-        boid.set_position(boids);
+        boid.set_position();
     }
 
     // Declare your infinite update loop.

@@ -149,7 +149,7 @@ void Boids::separation(const std::vector<Boids>& boids, float distance_separatio
 
 // SETTER
 
-void Boids::set_position(const std::vector<Boids>& existingBoids)
+void Boids::set_position()
 
 {
     m_position.x = p6::random::number(-0.975f, 0.975f);
