@@ -36,14 +36,14 @@ void Boids::update_pos()
     }
 }
 
-void Boids::update_direction(std::vector<Boids>& boids, float distance_alignment, float distance_cohesion, float distance_separation)
+void Boids::update_direction(std::vector<Boids>& boids)
 
 {
     for (auto& elem : boids)
     {
-        elem.alignment(boids, distance_alignment);
-        elem.cohesion(boids, distance_cohesion);
-        elem.separation(boids, distance_separation);
+        elem.cohesion(boids);
+        elem.alignment(boids);
+        elem.separation(boids);
     }
     m_position += m_speed;
     this->update_pos();
@@ -52,7 +52,7 @@ void Boids::update_direction(std::vector<Boids>& boids, float distance_alignment
 /*LOI DES BOIDS*/
 
 // Cohésion
-void Boids::cohesion(const std::vector<Boids>& boids, float distance_cohesion)
+void Boids::cohesion(const std::vector<Boids>& boids)
 {
     glm::vec2 newPosition{0.0f, 0.0f};
     int       count = 0;
@@ -83,7 +83,7 @@ void Boids::cohesion(const std::vector<Boids>& boids, float distance_cohesion)
 }
 
 // Alignement
-void Boids::alignment(const std::vector<Boids>& boids, float distance_alignment)
+void Boids::alignment(const std::vector<Boids>& boids)
 {
     glm::vec2 newVelocity{0.0f, 0.0f};
     int       count = 0;
@@ -110,7 +110,7 @@ void Boids::alignment(const std::vector<Boids>& boids, float distance_alignment)
 }
 
 // Séparation
-void Boids::separation(const std::vector<Boids>& boids, float distance_separation)
+void Boids::separation(const std::vector<Boids>& boids)
 
 {
     glm::vec2 newDisplacement{0.0f, 0.0f};

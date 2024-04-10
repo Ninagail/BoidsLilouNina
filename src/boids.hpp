@@ -17,6 +17,10 @@ public:
     static float cohesion_force;
     static float separation_force;
 
+    static float distance_cohesion;
+    static float distance_alignment;
+    static float distance_separation;
+
     // constructeur
     Boids()
         : m_position(0), m_speed(0.01), m_direction(p6::random::direction()){}; // Fix: Initialize position and speed separately
@@ -32,12 +36,12 @@ public:
     // methodes
 
     void update_pos();
-    void update_direction(std::vector<Boids>& boids, float distance_aligment, float distance_cohesion, float distance_separation);
+    void update_direction(std::vector<Boids>& boids);
 
     // lois boids
-    void cohesion(const std::vector<Boids>& boids, float distance_cohesion);
-    void alignment(const std::vector<Boids>& boids, float distance_alignment);
-    void separation(const std::vector<Boids>& boids, float distance_separation);
+    void cohesion(const std::vector<Boids>& boids);
+    void alignment(const std::vector<Boids>& boids);
+    void separation(const std::vector<Boids>& boids);
 
     // getters
     glm::vec2 get_position() const { return m_position; };

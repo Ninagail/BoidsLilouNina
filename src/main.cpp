@@ -9,20 +9,20 @@
 #include "imgui.h"
 #include "p6/p6.h"
 
-float distance_aligment       = 0.1f;
-float distance_separation     = 0.05f;
-float distance_cohesion       = 0.2f;
-float Boids::separation_force = 0.01f;
-float Boids::cohesion_force   = 0.2f;
+float Boids::distance_alignment  = 0.1f;
+float Boids::distance_separation = 0.05f;
+float Boids::distance_cohesion   = 0.2f;
+float Boids::separation_force    = 0.01f;
+float Boids::cohesion_force      = 0.2f;
 
 void renderImGui()
 {
     ImGui::Begin("Slider");
     ImGui::SliderFloat("CohesionForce", &Boids::cohesion_force, 0.f, 1.f);
     ImGui::SliderFloat("SeparationForce", &Boids::separation_force, 0.f, 1.f);
-    ImGui::SliderFloat("Distance to unite", &distance_cohesion, 0.f, 1.f);
-    ImGui::SliderFloat("Distance to escape", &distance_separation, 0.f, 1.f);
-    ImGui::SliderFloat("Distance to align", &distance_aligment, 0.f, 1.f);
+    ImGui::SliderFloat("Distance to unite", &Boids::distance_cohesion, 0.f, 1.f);
+    ImGui::SliderFloat("Distance to escape", &Boids::distance_separation, 0.f, 1.f);
+    ImGui::SliderFloat("Distance to align", &Boids::distance_alignment, 0.f, 1.f);
 
     ImGui::End();
 }
@@ -68,7 +68,7 @@ int main()
                 p6::Radius{0.025f}
             );
             boid.update_pos();
-            boid.update_direction(boids, distance_aligment, distance_cohesion, distance_separation);
+            boid.update_direction(boids);
         }
     };
 
