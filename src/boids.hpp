@@ -1,4 +1,3 @@
-
 #include <vector>
 #include "p6/p6.h"
 
@@ -15,12 +14,8 @@ private:
 
 public:
     // attributs
-    // static float distance_separation;
-    // static float distance_cohesion;
-    // static float distance_aligment;
-    static float alignment_magnitude;
-    static float cohesion_magnitude;
-    static float separation_magnitude;
+    static float cohesion_force;
+    static float separation_force;
 
     // constructeur
     Boids()
@@ -39,7 +34,6 @@ public:
     void update_pos();
     void update_direction(std::vector<Boids>& boids, float distance_aligment, float distance_cohesion, float distance_separation);
 
-
     // lois boids
     void cohesion(const std::vector<Boids>& boids, float distance_cohesion);
     void alignment(const std::vector<Boids>& boids, float distance_alignment);
@@ -51,7 +45,6 @@ public:
     glm::vec2 get_direction() const { return m_direction; };
 
     // setters
-
-    void set_position(const std::vector<Boids>& existingBoids);
+    void set_position();
     void set_speed();
 };

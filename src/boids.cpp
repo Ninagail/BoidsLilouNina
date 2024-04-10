@@ -8,11 +8,9 @@
 #include "glm/geometric.hpp"
 #include "p6/p6.h"
 
-
 static constexpr glm::vec2 speedMax = glm::vec2(0.02f, 0.02f);
 
 // METHODS
-
 
 void Boids::update_pos()
 {
@@ -38,7 +36,6 @@ void Boids::update_pos()
     }
 }
 
-
 void Boids::update_direction(std::vector<Boids>& boids, float distance_alignment, float distance_cohesion, float distance_separation)
 
 {
@@ -51,7 +48,6 @@ void Boids::update_direction(std::vector<Boids>& boids, float distance_alignment
     m_position += m_speed;
     this->update_pos();
 }
-
 
 /*LOI DES BOIDS*/
 
@@ -68,7 +64,7 @@ void Boids::cohesion(const std::vector<Boids>& boids, float distance_cohesion)
         float distance = glm::length(elem.m_position - this->m_position);
         if (distance < distance_cohesion)
         {
-            newPosition += (elem.m_position - m_position) * 0.5f;
+            newPosition += (elem.m_position - m_position) * cohesion_force;
             count++;
         }
     }
@@ -77,16 +73,14 @@ void Boids::cohesion(const std::vector<Boids>& boids, float distance_cohesion)
     {
         newPosition /= count;
 
-        if (length(newPosition) > 0.01f)
+        if (length(newPosition) > separation_force)
         {
-            newPosition = glm::normalize(newPosition) * 0.01f;
+            newPosition = glm::normalize(newPosition) * separation_force;
         }
 
-        m_speed += (newPosition) * 0.01f;
+        m_speed += (newPosition)*separation_force;
     }
 }
-
-
 
 // Alignement
 void Boids::alignment(const std::vector<Boids>& boids, float distance_alignment)
@@ -107,7 +101,7 @@ void Boids::alignment(const std::vector<Boids>& boids, float distance_alignment)
     if (count > 0)
     {
         newVelocity /= count;
-        if (length(newVelocity) > 0.01f)
+        if (length(newVelocity) > separation_force)
         {
             newVelocity = glm::normalize(newVelocity);
             m_speed     = newVelocity * speedMax;
@@ -139,23 +133,21 @@ void Boids::separation(const std::vector<Boids>& boids, float distance_separatio
     if (count > 0)
     {
         newDisplacement /= count;
-        if (length(newDisplacement) > 0.01f)
+        if (length(newDisplacement) > separation_force)
         {
-            newDisplacement = glm::normalize(newDisplacement) * 0.01f;
+            newDisplacement = glm::normalize(newDisplacement) * separation_force;
         }
-      m_speed = newDisplacement;
+        m_speed = newDisplacement;
     }
 }
 
-
 // SETTER
 
-void Boids::set_position(const std::vector<Boids>& existingBoids)
+void Boids::set_position()
 
 {
     m_position.x = p6::random::number(-0.975f, 0.975f);
     m_position.y = p6::random::number(-0.975f, 0.975f);
-    
 }
 
 void Boids::set_speed()
