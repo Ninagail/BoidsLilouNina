@@ -14,12 +14,13 @@ private:
 
 public:
     // attributs
-    // static float distance_separation;
-    // static float distance_cohesion;
-    // static float distance_aligment;
+   
     static float alignment_magnitude;
     static float cohesion_magnitude;
     static float separation_magnitude;
+
+    static float cohesion_force;
+    static float separation_force;
 
     // constructeur
     Boids()
@@ -38,7 +39,6 @@ public:
     void update_pos();
     void update_direction(std::vector<Boids>& boids, float distance_aligment, float distance_cohesion, float distance_separation);
 
-    std::vector<Boids> get_neighbors(const std::vector<Boids>& boids, const float& distance_max);
 
     // lois boids
     void cohesion(const std::vector<Boids>& boids, float distance_cohesion);
