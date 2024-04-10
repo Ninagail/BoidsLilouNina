@@ -1,42 +1,46 @@
 #include "boids.hpp"
-#include <stdlib.h>
 #include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <vector>
 #include "doctest/doctest.h"
 #include "glm/common.hpp"
-#include "glm/fwd.hpp"
 #include "glm/geometric.hpp"
 #include "p6/p6.h"
 
+
 static constexpr glm::vec2 speedMax = glm::vec2(0.02f, 0.02f);
 
-// METHODS UPDATE
+// METHODS
 
-void Boids ::update_pos()
+
+void Boids::update_pos()
 {
-    m_position.x += m_speed.x;
-    m_position.y += m_speed.y;
+    m_position += m_speed;
+
+    // Wrap-around du bord de l'écran
     if (m_position.x <= -0.975f)
     {
-        m_position.x += 1.95;
+        m_position.x += 1.95f;
     }
-    if (m_position.x >= 0.975f)
+    else if (m_position.x >= 0.975f)
     {
-        m_position.x -= 1.95;
+        m_position.x -= 1.95f;
     }
+
     if (m_position.y <= -0.975f)
     {
-        m_position.y += 1.95;
+        m_position.y += 1.95f;
     }
-    if (m_position.y >= 0.975f)
+    else if (m_position.y >= 0.975f)
     {
-        m_position.y -= 1.95;
+        m_position.y -= 1.95f;
     }
 }
 
+
 void Boids::update_direction(std::vector<Boids>& boids, float distance_alignment, float distance_cohesion, float distance_separation)
+
 {
     for (auto& elem : boids)
     {
@@ -48,25 +52,6 @@ void Boids::update_direction(std::vector<Boids>& boids, float distance_alignment
     this->update_pos();
 }
 
-// NEIGHBORS
-std::vector<Boids> Boids::get_neighbors(const std::vector<Boids>& boids, const float& distance_max)
-{
-    std::vector<Boids> neighbors;
-
-    for (const auto& other : boids)
-    {
-        if (&other != this)
-        {
-            float distance = glm::distance(m_position, other.m_position);
-            if (distance < distance_max)
-            {
-                neighbors.push_back(other);
-            }
-        }
-    }
-
-    return neighbors;
-}
 
 /*LOI DES BOIDS*/
 
@@ -101,6 +86,8 @@ void Boids::cohesion(const std::vector<Boids>& boids, float distance_cohesion)
     }
 }
 
+
+
 // Alignement
 void Boids::alignment(const std::vector<Boids>& boids, float distance_alignment)
 {
@@ -130,6 +117,7 @@ void Boids::alignment(const std::vector<Boids>& boids, float distance_alignment)
 
 // Séparation
 void Boids::separation(const std::vector<Boids>& boids, float distance_separation)
+
 {
     glm::vec2 newDisplacement{0.0f, 0.0f};
     int       count = 0;
@@ -155,37 +143,19 @@ void Boids::separation(const std::vector<Boids>& boids, float distance_separatio
         {
             newDisplacement = glm::normalize(newDisplacement) * 0.01f;
         }
-        m_speed = newDisplacement;
+      m_speed = newDisplacement;
     }
 }
 
+
 // SETTER
+
 void Boids::set_position(const std::vector<Boids>& existingBoids)
+
 {
     m_position.x = p6::random::number(-0.975f, 0.975f);
     m_position.y = p6::random::number(-0.975f, 0.975f);
-    // bool positionFound = false;
-    // while (!positionFound)
-    // {
-    //     // Générer une nouvelle position aléatoire
-
-    //     // Vérifier s'il y a une collision avec une position existante
-    //     bool collision = false;
-    //     for (const auto& boid : existingBoids)
-    //     {
-    //         if (&boid != this && glm::distance(m_position, boid.get_position()) < 0.1f)
-    //         {
-    //             collision = true;
-    //             break;
-    //         }
-    //     }
-
-    //     // Si aucune collision n'est détectée, la position est valide
-    //     if (!collision)
-    //     {
-    //         positionFound = true;
-    //     }
-    // }
+    
 }
 
 void Boids::set_speed()
