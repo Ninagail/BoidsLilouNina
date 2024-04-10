@@ -9,6 +9,7 @@
 #include "imgui.h"
 #include "p6/p6.h"
 
+<<<<<<< Updated upstream
 float Boids::distance_max         = 0.5f; // Modifie la distance de séparartion entre les boids
 float Boids::alignment_magnitude  = 0.5f;
 float Boids::cohesion_magnitude   = 0.5f;
@@ -24,6 +25,8 @@ void renderImGui()
     ImGui::End();
 }
 
+=======
+>>>>>>> Stashed changes
 int main()
 {
     // Run the tests
@@ -34,7 +37,12 @@ int main()
     auto ctx = p6::Context{{.title = "Simple-p6-Setup"}};
     ctx.maximize_window();
 
-    // Boids             boid;
+    // Paramètres des comportements de boids
+    float distance_aligment   = 0.1f;
+    float distance_cohesion   = 0.2f;
+    float distance_separation = 0.05f;
+
+    // Génération des boids
     std::vector<Boids> boids(50);
     for (auto& boid : boids)
     {
@@ -42,9 +50,9 @@ int main()
         boid.set_position();
     }
 
-    // Declare your infinite update loop.
+    // Déclaration de la boucle de mise à jour infinie
     ctx.update = [&]() {
-        // setup background
+        // Mise en place de l'arrière-plan
         ctx.background({0.3f, 0.9f, 0.6f, 0.9f});
         ctx.fill = {0.3f, 0.9f, 0.6f, 0.9f};
         ctx.square(
@@ -52,11 +60,18 @@ int main()
             p6::Radius{1.0f}
         );
 
-        // setup boids
+        // Mise en place des boids
         ctx.fill   = {0.3f, 0.5f, 0.9f, 1.0f};
         ctx.stroke = {0.3f, 0.5f, 0.9f, 1.0f};
 
-        renderImGui();
+        ImGui::Begin("Slider");
+        ImGui::SliderFloat("Distance to align", &distance_aligment, 0.f, 1.f);
+        ImGui::SliderFloat("Distance to unite", &distance_cohesion, 0.f, 1.f);
+        ImGui::SliderFloat("Distance to escape", &distance_separation, 0.f, 1.f);
+        ImGui::SliderFloat("Alignment Force", &Boids ::alignment_force, 0.f, 1.f);
+        ImGui::SliderFloat("Cohesion Force", &Boids ::cohesion_force, 0.f, 1.f);
+
+        ImGui::End();
 
         for (auto& boid : boids)
         {
@@ -70,6 +85,6 @@ int main()
         }
     };
 
-    // Should be done last. It starts the infinite loop.
+    // Doit être fait en dernier. Cela démarre la boucle infinie.
     ctx.start();
 }
