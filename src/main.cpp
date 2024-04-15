@@ -55,20 +55,15 @@ int main()
             p6::Radius{1.0f}
         );
 
-        // setup boids
-        ctx.fill   = {0.3f, 0.5f, 0.9f, 1.0f};
-        ctx.stroke = {0.3f, 0.5f, 0.9f, 1.0f};
-
         renderImGui();
+
+        // setup boids
 
         for (auto& boid : boids)
         {
-            ctx.circle(
-                p6::Center{boid.get_position().x, boid.get_position().y},
-                p6::Radius{0.025f}
-            );
-            boid.update_pos();
+            boid.drawBoids(ctx);
             boid.update_direction(boids);
+            boid.update_pos();
         }
     };
 

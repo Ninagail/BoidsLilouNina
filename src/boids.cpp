@@ -11,6 +11,12 @@
 static constexpr glm::vec2 speedMax = glm::vec2(0.02f, 0.02f);
 
 // METHODS
+void Boids::drawBoids(p6::Context& ctx) const
+{
+    ctx.fill = {0.3f, 0.5f, 0.9f, 1.0f};
+    ctx.circle(p6::Center{this->get_position().x, this->get_position().y}, p6::Radius{0.025f});
+    ctx.use_stroke = false;
+}
 
 void Boids::update_pos()
 {

@@ -34,6 +34,7 @@ public:
     Boids(const Boids& other) = default;
 
     // methodes
+    void drawBoids(p6::Context& ctx) const;
 
     void update_pos();
     void update_direction(std::vector<Boids>& boids);
