@@ -7,45 +7,44 @@
 
 class Boids {
 private:
-    // attributs
+    // Attributs
 
     glm::vec2  m_position;
     glm::vec2  m_speed;
     glm ::vec2 m_direction;
 
 public:
-    // attributs
+    // Static attributs
     static float cohesion_force;
     static float separation_force;
 
-    // constructeur
+    // Constructors
     Boids()
-        : m_position(0), m_speed(0.01), m_direction(p6::random::direction()){}; // Fix: Initialize position and speed separately
-    Boids(const glm::vec2& position, const glm::vec2& speed)                    // Fix: Swap the positions of 'position' and 'speed'
-        : m_position(position), m_speed(speed){};                               // Fix: Initialize position and speed separately
+        : m_position(0), m_speed(0.01), m_direction(p6::random::direction()){};
+    Boids(const glm::vec2& position, const glm::vec2& speed)
+        : m_position(position), m_speed(speed){};
 
-    // destructeur
+    // Destructor
     ~Boids() = default;
 
     // copy constructor
     Boids(const Boids& other) = default;
 
-    // methodes
+    // Methods
 
     void update_pos();
     void update_direction(std::vector<Boids>& boids, float distance_aligment, float distance_cohesion, float distance_separation);
 
-    // lois boids
     void cohesion(const std::vector<Boids>& boids, float distance_cohesion);
     void alignment(const std::vector<Boids>& boids, float distance_alignment);
     void separation(const std::vector<Boids>& boids, float distance_separation);
 
-    // getters
+    // Getters
     glm::vec2 get_position() const { return m_position; };
     glm::vec2 get_speed() const { return m_speed; };
     glm::vec2 get_direction() const { return m_direction; };
 
-    // setters
+    // Setters
     void set_position();
     void set_speed();
 };

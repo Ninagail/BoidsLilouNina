@@ -9,6 +9,7 @@
 #include "imgui.h"
 #include "p6/p6.h"
 
+// Define global variables for parameters
 float distance_aligment       = 0.1f;
 float distance_separation     = 0.05f;
 float distance_cohesion       = 0.2f;

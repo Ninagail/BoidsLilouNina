@@ -8,17 +8,15 @@
 #include "glm/geometric.hpp"
 #include "p6/p6.h"
 
-
 static constexpr glm::vec2 speedMax = glm::vec2(0.02f, 0.02f);
 
 // METHODS
-
 
 void Boids::update_pos()
 {
     m_position += m_speed;
 
-    // Wrap-around du bord de l'écran
+    // Wrap around the screen edges
     if (m_position.x <= -0.975f)
     {
         m_position.x += 1.95f;
@@ -38,7 +36,7 @@ void Boids::update_pos()
     }
 }
 
-
+// Update the direction of the boid based on alignment, cohesion, and separation
 void Boids::update_direction(std::vector<Boids>& boids, float distance_alignment, float distance_cohesion, float distance_separation)
 
 {
@@ -54,7 +52,7 @@ void Boids::update_direction(std::vector<Boids>& boids, float distance_alignment
 
 /*LOI DES BOIDS*/
 
-// Cohésion
+// Cohesion
 void Boids::cohesion(const std::vector<Boids>& boids, float distance_cohesion)
 {
     glm::vec2 newPosition{0.0f, 0.0f};
@@ -85,8 +83,6 @@ void Boids::cohesion(const std::vector<Boids>& boids, float distance_cohesion)
     }
 }
 
-
-
 // Alignement
 void Boids::alignment(const std::vector<Boids>& boids, float distance_alignment)
 {
@@ -114,7 +110,7 @@ void Boids::alignment(const std::vector<Boids>& boids, float distance_alignment)
     }
 }
 
-// Séparation
+// Separation
 void Boids::separation(const std::vector<Boids>& boids, float distance_separation)
 
 {
@@ -142,13 +138,13 @@ void Boids::separation(const std::vector<Boids>& boids, float distance_separatio
         {
             newDisplacement = glm::normalize(newDisplacement) * separation_force;
         }
-      m_speed = newDisplacement;
+        m_speed = newDisplacement;
     }
 }
 
-
 // SETTER
 
+// Set random position
 void Boids::set_position()
 
 {
@@ -156,6 +152,7 @@ void Boids::set_position()
     m_position.y = p6::random::number(-0.975f, 0.975f);
 }
 
+// Set random speed
 void Boids::set_speed()
 {
     m_speed.x = p6::random::number(-0.01f, 0.01f);
